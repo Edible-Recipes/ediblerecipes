@@ -18,3 +18,7 @@ app.get('/', (req, res) => {
 app.listen(PORT, () => {
     console.log('Edible Recipes Server is up and running');
 })
+
+//psql -d <url from elephantSQL> -f starwars_postgres_create.sql
+//postgres://nagsauar:3uEIYk1GNWY8XPHcw61ZsQErEvPKtr2d@rajje.db.elephantsql.com:5432/nagsauar
+//psql -d postgres://nagsauar:3uEIYk1GNWY8XPHcw61ZsQErEvPKtr2d@rajje.db.elephantsql.com:5432/nagsauar -f ediblerecipes_create.sql
