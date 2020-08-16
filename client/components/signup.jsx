@@ -51,7 +51,7 @@ export default class SignUp extends Component {
 		console.log(newUser)
 		//ask Grace and Wilmer about secretKey
 		axios
-			.post('http://localhost:3000/signUp', newUser)
+			.post('/signUp', newUser)
 			.then((res) => console.log(res.data));
 
 		this.setState({
