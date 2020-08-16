@@ -1,43 +1,58 @@
-SET statement_timeout = 0;
-SET lock_timeout = 0;
-SET idle_in_transaction_session_timeout = 0;
-SET client_encoding = 'UTF8';
-SET standard_conforming_strings = on;
+SET statement_timeout
+= 0;
+SET lock_timeout
+= 0;
+SET idle_in_transaction_session_timeout
+= 0;
+SET client_encoding
+= 'UTF8';
+SET standard_conforming_strings
+= on;
 SELECT pg_catalog.set_config('search_path', '', false);
-SET check_function_bodies = false;
-SET xmloption = content;
-SET client_min_messages = warning;
-SET row_security = off;
+SET check_function_bodies
+= false;
+SET xmloption
+= content;
+SET client_min_messages
+= warning;
+SET row_security
+= off;
 
 
-CREATE TABLE public.users (
+CREATE TABLE public.users
+(
 	"_id" serial NOT NULL,
 	"name" varchar NOT NULL,
 	"password" varchar NOT NULL,
 	"email" varchar NOT NULL,
 	CONSTRAINT "users_pk" PRIMARY KEY ("_id")
-) WITH (
+)
+WITH (
   OIDS=FALSE
 );
 
-CREATE TABLE public.recipes (
+CREATE TABLE public.recipes
+(
 	"_id" serial NOT NULL,
 	"name" varchar NOT NULL,
 	"user_id" bigint NOT NULL,
 	CONSTRAINT "recipes_pk" PRIMARY KEY ("_id"),
-    FOREIGN KEY (user_id) REFERENCES public.users(_id)
-) WITH (
+	FOREIGN KEY (user_id) REFERENCES public.users(_id)
+)
+WITH (
   OIDS=FALSE
 );
 
 
-CREATE TABLE public.ingredients (
+CREATE TABLE public.ingredients
+(
 	"_id" serial NOT NULL,
 	"name" varchar NOT NULL,
 	"user_id" bigint NOT NULL,
 	CONSTRAINT "ingredients_pk" PRIMARY KEY ("_id"),
-    FOREIGN KEY (user_id) REFERENCES public.users(_id)
-) WITH (
+	FOREIGN KEY (user_id) REFERENCES public.users(_id)
+)
+WITH (
   OIDS=FALSE
 );
 
