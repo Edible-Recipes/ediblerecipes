@@ -1,44 +1,72 @@
 const path = require("path");
 const bcrypt = require("bcrypt");
-// need to require in db
-// require bcrypt
+const jwt = require("jsonwebtoken");
 
 // require in database
+const db = require("../models/edibleRecipesModels.js");
 
 const userController = {};
+
+// userController.getAllUsers = async (req, res, next) => {
+//   console.log("IN GET ALL USERS");
+
+//   try {
+//     // const { name, password, email } = req.body;
+
+//     const search = `SELECT * FROM users`;
+
+//     const data = await db.query(search);
+//     console.log(data.rows);
+//     res.locals.allusers = data.rows;
+//     return next();
+//   } catch (err) {
+console.log("ERROR IN getallusers");
+//   }
+// };
 
 userController.verifyUser = async (req, res, next) => {
   try {
     // get login info
-    const { username, password } = req.body;
+    console.log("req.body", req.body);
+    const { email, password } = req.body;
+    console.log(email, "this is the email!!");
 
     // incomplete sign in
-    if (!username || !password) {
+    if (!email || !password) {
       return next("Missing username or password in userController.verifyUser");
     }
 
+    // console.log(email)
+
     // search parameters from the table for id and password
     // compare id and password to database info
-    const searchUser = "SELECT .....";
+    //SELECT password FROM users WHERE email = 'qwen@qwen.qwen';
+    const searchUser = `SELECT password FROM users WHERE email = '${email}'`;
+    console.log(searchUser);
 
     // query SQL database
     const data = await db.query(searchUser);
+    console.log("data.rows in login", data.rows);
 
-    if (!username) {
+    if (!email) {
       return res.redirect("/signUp");
     }
 
     if (!data.rows.length) {
-      return res.render("Incorrect username or password. Please try again.");
+      return res.render("Incorrect email or password. Please try again.");
     }
 
     // need to verify this after we have database set up
     const userPassword = data.rows[0].password;
+
     const token = req.cookies.ssid;
+    console.log("tokennn", token);
     const { secret } = req.cookies;
+    console.log("secret in login", secret);
 
     await jwt.verify(token, secret, (err, decoded) => {
-      if (err) console.log("JWT Verify error");
+      console.log("inside JWT");
+      if (err) console.log("JWT Verify error", err);
       else console.log("decoded", decoded);
     });
 
@@ -47,8 +75,8 @@ userController.verifyUser = async (req, res, next) => {
         console.log("error in bcrypt.compare", err);
       }
       if (!match) return res.redirect("/signup");
-
-      res.locals.user = data;
+      console.log("Successfully compared bcrypt");
+      res.locals.user = data.rows[0];
       return next();
     });
   } catch (err) {
@@ -62,30 +90,37 @@ userController.verifyUser = async (req, res, next) => {
 };
 
 userController.createUser = (req, res, next) => {
-  const { username, password } = req.body;
-  console.log("username ", username, "password ", password);
-  if (!username || !password) {
-    return next("Missing username or password in userController.createUser");
-  }
+  console.log("IN CREATE USER");
+  const { email, password, name } = req.body;
+  console.log("email", email, "password ", password, "name", name);
+  //   if (!email || !password) {
+  //     return next("Missing username or password in userController.createUser");
+  //   }
 
-  const create = "INSERT INTO *TABLE*  ......";
+  //check if this work**********
+  const create = `INSERT INTO users(email, password, name) VALUES ($1, $2,$3) RETURNING *`;
 
-  //  let text = `INSERT INTO users (username, password) VALUES ( $1, $2,)`;
-
-  const values = [username, password];
+  const values = [email, password, name];
+  const id = `SELECT _id from users WHERE name = ${name}`;
 
   db.query(create, values)
     .then((data) => {
-      console.log(data);
+      // console.log("data!!!!!!!!!!!", data);
+      // console.log("data.rows", data.rows);
+      const userRow = data.rows.filter((row) => row.email === email);
+      // console.log("userRow", userRow);
+      res.locals.user = userRow[0]._id;
+      console.log("res.locals.newUser", res.locals.user);
       return next();
     })
     .catch((err) => {
-      const err = {
+      console.log(err);
+      const error = {
         log: "createUser Express error handler caught unknown middleware error",
         status: 400,
         message: { err: "An error occurred" },
       };
-      next(err);
+      next(error);
     });
 };
 
@@ -97,18 +132,19 @@ userController.getSavedRecipes = (req, res, next) => {
   db.query(search)
     .then((data) => {
       //
-      console.log(data);
+      // console.log(data);
       res.locals.recipes = data.rows;
       return next();
     })
     .catch((err) => {
-      const err = {
+      console.log(err);
+      const error = {
         log:
           "getSavedRecipes Express error handler caught unknown middleware error",
         status: 400,
         message: { err: "An error occurred" },
       };
-      next(err);
+      next(error);
     });
 };
 

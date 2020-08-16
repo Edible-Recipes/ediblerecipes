@@ -7,23 +7,35 @@ const jwt = require("jsonwebtoken");
 const userController = require("./userController");
 
 const cookieController = {};
-
 cookieController.setCookie = (req, res, next) => {
-  // write code here
-  //random number generated
-  const random = Math.floor(Math.random() * 100);
+  //   random number generatednst
+  random = Math.floor(Math.random() * 100);
   res.cookie("secret", random);
   return next();
 };
 //hi , what else we need to do here?
 
 cookieController.setSSIDCookie = (req, res, next) => {
-  const { id } = res.locals.user;
-  const payload = { id: id };
-  const { secret } = req.cookies;
+  //id is undefined, and user is not created
+  console.log("the res.locals.user", res.locals);
+  const { name } = req.body;
+  console.log("req.cookies", req.cookie);
 
-  const token = jwt.sign(payload, secret, { expiresIn: 300 });
+  const userid = `SELECT _id FROM users WHERE name = ${name}`;
+
+  //   res.locals.users = userid;
+  //   const { name } = res.body;
+  //   console.log(req.body);
+  const { _id } = res.locals.user;
+
+  const payload = { id: _id };
+  // const { secret } = req.cookies;
+  console.log("this is the req.cookies.secret", req.cookies.secret);
+
+  const token = jwt.sign(payload, req.cookies.secret, { expiresIn: 300 });
 
   res.cookie("ssid", token, { httpOnly: true });
   return next();
 };
+
+module.exports = cookieController;

@@ -1,66 +1,65 @@
 const path = require("path");
 const express = require("express");
+const cookieParser = require("cookie-parser");
 const userController = require("./controllers/userController.js");
+const cookieController = require("./controllers/cookieController.js");
+const edibleRecipeController = require("./controllers/edibleRecipeController.js");
 const app = express();
 const PORT = 3000;
 
+// const db = require("./models/edibleRecipesModels.js");
+
 app.use(express.json()); // --> Same as body parser
 app.use(express.urlencoded({ extended: true }));
+app.use(cookieParser());
 
-// homepage - login
+// app.get("/", userController.getAllUsers, (req, res) =>
+//   res.status(200).json(res.locals.alluser)
+// );
+
+// homepage - login;
 app.post(
-  "/",
+  "/login",
   userController.verifyUser,
   cookieController.setSSIDCookie,
-  (req, res) => {
-    res.redirect("/search");
-    inger;
-  }
+  (req, res) => res.redirect("/search")
+  // res.status(200).json(res.locals.user)
 );
 
-// create a new account
+// // create a new account
 app.post(
   "/signUp",
   userController.createUser,
+  cookieController.setCookie,
   cookieController.setSSIDCookie,
   (req, res) => {
     res.redirect("/search");
+    // res.status(200).json(res.locals.user);
+  }
+);
+//
+// // search page //two middleware func
+app.get(
+  "/search",
+  // edibleRecipeController.getRecipes,
+  (req, res) => {
+    res.send("Hello");
   }
 );
 
-// search page //two middleware func
-app.use("/search", (req, res) => {
-  res.send("Hello");
-});
-
 // search results - recipe links and videos
-app.get("/results", (req, res) => {
-  res.send("Hello");
-});
+// app.get("/results", (req, res) => {
+//   res.send("Hello");
+// });
 
-// saved recipes
-app.get("/savedRecipes", userController.getSavedRecipes, (req, res) => {
-  res.send(res.locals.recipes);
-});
+// // saved recipes
+// app.get("/savedRecipes", userController.getSavedRecipes, (req, res) => {
+//   res.send(res.locals.recipes);
+// });
 
-//catch all router handlers
+// //catch all router handlers
 app.use((req, res) => {
   console.log("catch-all route handler is working");
-  return res.sendStatus(404);
 });
 
-//middleware errors or controller
-app.use((err, req, res, next) => {
-  const defaultErr = {
-    log: "Express error handler caught unknown middleware error",
-    status: 400,
-    message: { err: "An error occurred" },
-  };
-  const errorObj = Object.assign({}, defaultErr, err);
-  console.log(errorObj.log);
-  res.status(errorObj.status).json(errorObj.message);
-});
-
-app.listen(PORT, () => {
-  console.log("Edible Recipes Server is up and running");
-});
+app.listen(PORT, () => console.log(`Listening on PORT: ${PORT}`));
