@@ -26,7 +26,7 @@ app.post(
   '/login',
   userController.verifyUser,
   cookieController.setSSIDCookie,
-  (req, res) => res.redirect('/search')
+  (req, res) => res.redirect('/recipesform')
   // res.status(200).json(res.locals.user)
 );
 
