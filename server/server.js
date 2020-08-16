@@ -33,8 +33,8 @@ app.post(
 // // create a new account
 app.post(
   '/signUp',
+  userController.hashPassword,
   userController.createUser,
-
   cookieController.setSSIDCookie,
   (req, res) => {
     res.redirect('/search');
