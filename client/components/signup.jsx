@@ -3,104 +3,114 @@ import React, { Component } from 'react';
 // import '../src/App.css';
 import axios from 'axios';
 
-export default class CreateUser extends Component {
-  constructor(props) {
-    super(props);
-    this.state = {
-      name: '',
-      password: '',
-      // email: '',
-    };
-    this.onChangeUsername = this.onChangeUsername.bind(this);
-    this.onChangePassword = this.onChangePassword.bind(this);
-    // this.onChangeEmail = this.onChangeEmail.bind(this);
-  }
+export default class SignUp extends Component {
+	constructor(props) {
+		super(props);
+		this.state = {
+			name: '',
+			password: '',
+			email: '',
+		};
+		this.handleChange = this.handleChange.bind(this);
+		this.onSubmit = this.onSubmit.bind(this);
+	}
 
-  onChangeUsername(e) {
-    this.setState({
-      name: e.target.value,
-    });
-  }
+	// componentDidMount () {
+	// 	// 	axios.get('http://localhost:3000/')
+	// 	// 		.then(console.log("in here 2!"))
+	// 	// }
 
-  onChangePassword(e) {
-    this.setState({
-      password: e.target.value,
-    });
-  }
 
-  // onChangeEmail (e) {
-  // 	this.setState({
-  // 		email: e.target.value
-  // 	})
-  // }
+	// 	setTimeout(() => {
+	// 		fetch('http://localhost:3000/', {
+	// 			method: 'GET',
+	// 			mode: 'same-origin',
+	// 			credentials: 'include', // Don't forget to specify this if you need cookies
+	// 		})
+	// 	}, 500)
+	// }
 
-  onSubmit(e) {
-    e.preventDefault();
+	handleChange (e) {
+		const name = e.target.name;
+		const value = e.target.value;
+		this.setState({
+			...this.state,
+			[name]: value
+		});
+	}
 
-    const newUser = {
-      name: this.state.name,
-      password: this.state.password,
-      // email: this.state.email,
-    };
+	onSubmit (e) {
+		e.preventDefault();
 
-    axios
-      .post('http://localhost:3000/signUp', newUser)
-      .then((res) => console.log(res.data));
+		const newUser = {
+			name: this.state.name,
+			password: this.state.password,
+			email: this.state.email,
+		};
 
-    this.setState({
-      name: '',
-      password: '',
-      // email: '',
-    });
+		console.log(newUser)
+		//ask Grace and Wilmer about secretKey
+		axios
+			.post('/signUp', newUser)
+			.then((res) => console.log(res.data));
 
-    this.props.history.push('/');
-    //this command above returns you to the homepage
-  }
+		this.setState({
+			name: '',
+			password: '',
+			email: '',
+		});
 
-  render() {
-    return (
-      <div style={{ marginTop: 20 }}>
-        <h2>Sign Up</h2>
-        <form onSubmit={this.onSubmit}>
-          <div className="form-group">
-            <label>Username: </label>
-            <input
-              type="text"
-              className="form-control"
-              value={this.state.name}
-              onChange={this.onChangeUserName}
-            />
-          </div>
+		this.props.history.push('/login');
+		// this command above returns you to the homepage
+	}
 
-          <div className="form-group">
-            <label>Password </label>
-            <input
-              type="password"
-              className="form-control"
-              value={this.state.password}
-              onChange={this.onChangePassword}
-            />
-          </div>
+	render () {
+		return (
+			<div style={{ marginTop: 20 }}>
+				<h2>Sign Up</h2>
+				<form onSubmit={this.onSubmit}>
+					<div className="form-group">
+						<label>Username: </label>
+						<input
+							name="name"
+							type="text"
+							className="form-control"
+							defaultValue={this.state.name}
+							onChange={this.handleChange}
+						/>
+					</div>
 
-          {/* <div className="form-group">
+					<div className="form-group">
+						<label>Password </label>
+						<input
+							name="password"
+							type="password"
+							className="form-control"
+							defaultValue={this.state.password}
+							onChange={this.handleChange}
+						/>
+					</div>
+
+					<div className="form-group">
 						<label>Email: </label>
 						<input type="text"
+							name="email"
 							className="form-control"
-							value={this.state.email}
-							onChange={this.onChangeEmail}
+							defaultValue={this.state.email}
+							onChange={this.handleChange}
 						/>
-					</div> */}
+					</div>
 
-          <div className="form-group">
-            <input
-              type="submit"
-              value="Create New User"
-              className="btn btn-primary"
-            />
-          </div>
-        </form>
-      </div>
-      // </div>
-    );
-  }
+					<div className="form-group">
+						<input
+							type="submit"
+							defaultValue="Create New User"
+							className="btn btn-primary"
+						/>
+					</div>
+				</form>
+			</div>
+			// </div>
+		);
+	}
 }
