@@ -15,6 +15,21 @@ export default class SignUp extends Component {
 		this.onSubmit = this.onSubmit.bind(this);
 	}
 
+	// componentDidMount () {
+	// 	// 	axios.get('http://localhost:3000/')
+	// 	// 		.then(console.log("in here 2!"))
+	// 	// }
+
+
+	// 	setTimeout(() => {
+	// 		fetch('http://localhost:3000/', {
+	// 			method: 'GET',
+	// 			mode: 'same-origin',
+	// 			credentials: 'include', // Don't forget to specify this if you need cookies
+	// 		})
+	// 	}, 500)
+	// }
+
 	handleChange (e) {
 		const name = e.target.name;
 		const value = e.target.value;

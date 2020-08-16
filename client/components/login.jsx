@@ -50,17 +50,12 @@ export default class Login extends Component {
 
 		console.log(user)
 		//ask Grace and Wilmer about secretKey
-		// axios
-		// 	.post('http://localhost:3000/login', newUser)
-		// 	.then((res) => console.log(res.data));
+		axios
+			.post('http://localhost:3000/login', user)
+			.then((res) => console.log(res.data));
 
-		// this.setState({
-		// 	name: '',
-		// 	password: '',
-		// 	email: '',
-		// });
 
-		// this.props.history.push('/login');
+		this.props.history.push('/login');
 		// this command above returns you to the homepage
 	}
 

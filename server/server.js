@@ -20,7 +20,7 @@ app.use(cookieParser());
 // );
 
 app.get('/', cookieController.setCookie, (req, res) => {
-	res.status(200);
+	res.sendFile(path.resolve(__dirname, "../client/index.html"));
 });
 
 // homepage - login;
@@ -28,31 +28,20 @@ app.post(
 	'/login',
 	userController.verifyUser,
 	cookieController.setSSIDCookie,
-	(req, res) => res.redirect('/search')
+	(req, res) => res.redirect('/recipesform')
 	// res.status(200).json(res.locals.user)
 );
 
 // // create a new account
 app.post(
-<<<<<<< HEAD
 	'/signUp',
+	userController.hashPassword,
 	userController.createUser,
-
 	cookieController.setSSIDCookie,
 	(req, res) => {
 		res.redirect('/search');
 		// res.status(200).json(res.locals.user);
 	}
-=======
-  '/signUp',
-  userController.hashPassword,
-  userController.createUser,
-  cookieController.setSSIDCookie,
-  (req, res) => {
-    res.redirect('/search');
-    // res.status(200).json(res.locals.user);
-  }
->>>>>>> 192b8a95989cf1be09e5a828ec1bd88d4b1d89c9
 );
 //
 // // search page //two middleware func
