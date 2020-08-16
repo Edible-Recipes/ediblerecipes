@@ -34,6 +34,7 @@ app.post(
 
 // // create a new account
 app.post(
+<<<<<<< HEAD
 	'/signUp',
 	userController.createUser,
 
@@ -42,6 +43,16 @@ app.post(
 		res.redirect('/search');
 		// res.status(200).json(res.locals.user);
 	}
+=======
+  '/signUp',
+  userController.hashPassword,
+  userController.createUser,
+  cookieController.setSSIDCookie,
+  (req, res) => {
+    res.redirect('/search');
+    // res.status(200).json(res.locals.user);
+  }
+>>>>>>> 192b8a95989cf1be09e5a828ec1bd88d4b1d89c9
 );
 //
 // // search page //two middleware func

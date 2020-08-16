@@ -17,9 +17,10 @@ cookieController.setCookie = (req, res, next) => {
 
 cookieController.setSSIDCookie = (req, res, next) => {
   console.log('IN SET SSID COOKIE');
+  console.log('res.locals', res.locals);
   //id is undefined, and user is not created
-  console.log('the res.locals.user', res.locals);
-  console.log('req.body', req.body);
+  // console.log('the res.locals.user', res.locals.user);
+  // console.log('req.body', req.body);
   const { name } = req.body;
   console.log('name', name);
   // const userid = `SELECT _id FROM users WHERE name = ${name}`;
@@ -27,14 +28,16 @@ cookieController.setSSIDCookie = (req, res, next) => {
   //   res.locals.users = userid;
   //   const { name } = res.body;
   //   console.log(req.body);
-  const id = res.locals.user;
+  const id = res.locals.userId;
   console.log('id', id);
   const payload = { id: id };
   console.log('payload', payload);
   // const { secret } = req.cookies;
   console.log('this is the req.cookies.secret', req.cookies.secret);
 
-  const token = jwt.sign(payload, req.cookies.secret, { expiresIn: 300 });
+  const token = jwt.sign(payload, req.cookies.secret, {
+    expiresIn: 100000000000,
+  });
 
   res.cookie('ssid', token, { httpOnly: true });
   return next();

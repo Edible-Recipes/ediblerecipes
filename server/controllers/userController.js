@@ -20,7 +20,7 @@ const userController = {};
 //     res.locals.allusers = data.rows;
 //     return next();
 //   } catch (err) {
-console.log('ERROR IN getallusers');
+// console.log('ERROR IN getallusers');
 //   }
 // };
 
@@ -42,7 +42,7 @@ userController.verifyUser = async (req, res, next) => {
     // search parameters from the table for id and password
     // compare id and password to database info
     //SELECT password FROM users WHERE email = 'qwen@qwen.qwen';
-    const searchUser = `SELECT password FROM users WHERE email = '${email}'`;
+    const searchUser = `SELECT password, _id FROM users WHERE email = '${email}'`;
     console.log(searchUser);
 
     // query SQL database
@@ -59,6 +59,7 @@ userController.verifyUser = async (req, res, next) => {
 
     // need to verify this after we have database set up
     const userPassword = data.rows[0].password;
+    const id = data.rows[0]._id;
 
     const token = req.cookies.ssid;
     console.log('tokennn', token);
@@ -72,6 +73,8 @@ userController.verifyUser = async (req, res, next) => {
       else console.log('decoded', decoded);
     });
 
+    // userPassword is from SQL
+    // password is from login page
     await bcrypt.compare(password, userPassword, (err, match) => {
       console.log('INSIDE BCRYPT COMPARE');
       console.log('password', password);
@@ -82,6 +85,7 @@ userController.verifyUser = async (req, res, next) => {
       if (!match) return next({ err });
       console.log('Successfully compared bcrypt');
       res.locals.user = data.rows[0];
+      res.locals.userId = id;
       return next();
     });
   } catch (err) {
@@ -94,36 +98,67 @@ userController.verifyUser = async (req, res, next) => {
   }
 };
 
-userController.createUser = (req, res, next) => {
+userController.hashPassword = async (req, res, next) => {
+  try {
+    console.log('IN HASH PASSWORD');
+    let { email, password, name } = req.body;
+    console.log('email', email, 'password ', password, 'name', name);
+
+    const SALT_WORK_FACTOR = 10;
+
+    function genHash(salt, pw) {
+      return new Promise((resolve, reject) => {
+        bcrypt.hash(pw, salt, function (err, hash) {
+          if (err) {
+            reject(err);
+          } else {
+            resolve({ hash: hash });
+          }
+        });
+      });
+    }
+
+    let hashedPassword = await genHash(SALT_WORK_FACTOR, password);
+    // let hashedPassword = await bcrypt.hash(password, SALT_WORK_FACTOR, (err, hash) => {
+    //   console.log('hashhhhh', hash);
+    //   if (err) return next('Error hashing password: ' + JSON.stringify(err));
+
+    //   return hash;
+    // });
+
+    console.log('hashed password', hashedPassword);
+    res.locals.newUser = { password: hashedPassword.hash, name, email };
+    console.log('res.locals.newUser', res.locals.newUser);
+    return next();
+  } catch (err) {
+    console.log('Error in hash password');
+    return next({ err });
+  }
+};
+
+userController.createUser = async (req, res, next) => {
   console.log('IN CREATE USER');
-  let { email, password, name } = req.body;
+  let { email, password, name } = res.locals.newUser;
   console.log('email', email, 'password ', password, 'name', name);
   //   if (!email || !password) {
   //     return next("Missing username or password in userController.createUser");
   //   }
 
   //check if this work**********
-  const SALT_WORK_FACTOR = 10;
-
-  bcrypt.hash(password, SALT_WORK_FACTOR, (err, hash) => {
-    if (err) return next('Error hashing password: ' + JSON.stringify(err));
-
-    password = hash;
-  });
 
   const create = `INSERT INTO users(email, password, name) VALUES ($1, $2,$3) RETURNING *`;
 
   const values = [email, password, name];
-  const id = `SELECT _id from users WHERE name = ${name}`;
+  console.log('values inserted into sql', values);
 
   db.query(create, values)
     .then((data) => {
-      console.log('data!!!!!!!!!!!', data);
+      // console.log('data!!!!!!!!!!!', data);
       console.log('data.rows', data.rows);
       const userRow = data.rows.filter((row) => row.email === email);
       console.log('userRow', userRow);
-      res.locals.user = userRow[0]._id;
-      console.log('res.locals.newUser', res.locals.user);
+      res.locals.userId = userRow[0]._id;
+      console.log('res.locals.userId', res.locals.userId);
       return next();
     })
     .catch((err) => {
