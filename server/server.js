@@ -49,6 +49,10 @@ app.post(
   }
 );
 
+app.get("/resultrecipes", edibleRecipeController.getRecipes, (req, res) => {
+  res.status(200);
+});
+
 app.get("/savedrecipes", (req, res) => {});
 
 app.post("/savedrecipes", (req, res) => {});

@@ -89,11 +89,11 @@ export default class RecipeForms extends Component {
             <br />
             <form>
               <div className="add">
-                <h2>Add Ingrediants</h2>
+                <h2>Add Ingredients</h2>
                 <input className="addForm" type="text" value="" />
               </div>
             </form>
-            <h3>Ingrediants List</h3>
+            <h3>Ingredients List</h3>
             <br />
             <form onSubmit={this.onSubmit}>
               <div class="form-row">
