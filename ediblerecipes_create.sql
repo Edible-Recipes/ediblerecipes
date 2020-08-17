@@ -35,6 +35,7 @@ CREATE TABLE public.recipes
 (
 	"_id" serial NOT NULL,
 	"name" varchar NOT NULL,
+	"recipe_id" bigint NOT NULL,
 	"user_id" bigint NOT NULL,
 	CONSTRAINT "recipes_pk" PRIMARY KEY ("_id"),
 	FOREIGN KEY (user_id) REFERENCES public.users(_id)
@@ -87,3 +88,5 @@ WITH (
 --SELECT users._id, recipes._id from users INNER JOIN recipes
 
 
+
+-- psql -d postgres://nagsauar:3uEIYk1GNWY8XPHcw61ZsQErEvPKtr2d@rajje.db.elephantsql.com:5432/nagsauar -f ediblerecipes_create.sql

@@ -1,15 +1,15 @@
 // import 'bootstrap/dist/css/bootstrap.css';
-import React, { Component } from 'react';
+import React, { Component } from "react";
 // import '../src/App.css';
-import axios from 'axios';
+import axios from "axios";
 
 export default class Login extends Component {
   constructor(props) {
     super(props);
     this.state = {
       //   name: '',
-      password: '',
-      email: '',
+      password: "",
+      email: "",
     };
     // this.onChangeUsername = this.onChangeUsername.bind(this);
     // this.onChangePassword = this.onChangePassword.bind(this);
@@ -47,24 +47,24 @@ export default class Login extends Component {
       email: this.state.email,
     };
 
-    console.log('user in login', user);
+    console.log("user in login", user);
 
     // axios
     //   .post('http://localhost:3000/login', user)
     //   .then((res) => console.log(res.data));
 
-    fetch('http://localhost:3000/login', {
-      method: 'POST',
+    fetch("http://localhost:3000/login", {
+      method: "POST",
       body: JSON.stringify(user),
       // body: user,
-      headers: { 'Content-Type': 'application/json' },
-      credentials: 'include',
+      headers: { "Content-Type": "application/json" },
+      credentials: "include",
     })
       .then((response) => response.json())
-      .then((data) => console.log('FETCH data', data))
-      .catch((err) => console.log('ERROR in login fetch', err));
+      .then((data) => console.log("FETCH data", data))
+      .catch((err) => console.log("ERROR in login fetch", err));
 
-    this.props.history.push('/login');
+    this.props.history.push("/login");
     // this command above returns you to the homepage
   }
 

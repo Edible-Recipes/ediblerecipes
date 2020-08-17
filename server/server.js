@@ -1,25 +1,25 @@
-const path = require('path');
-const express = require('express');
-const cookieParser = require('cookie-parser');
-const userController = require('./controllers/userController.js');
-const cookieController = require('./controllers/cookieController.js');
-const edibleRecipeController = require('./controllers/edibleRecipeController.js');
+const path = require("path");
+const express = require("express");
+const cookieParser = require("cookie-parser");
+const userController = require("./controllers/userController.js");
+const cookieController = require("./controllers/cookieController.js");
+const edibleRecipeController = require("./controllers/edibleRecipeController.js");
 const app = express();
 const PORT = 3000;
-const cors = require('cors');
+const cors = require("cors");
 
-app.use(cors({ credentials: true, origin: 'http://localhost:8080' }));
+app.use(cors({ credentials: true, origin: "http://localhost:8080" }));
 app.use(express.json()); // --> Same as body parser
 app.use(express.urlencoded({ extended: true }));
 app.use(cookieParser());
 
-app.get('/', cookieController.setCookie, (req, res) => {
-  res.sendFile(path.resolve(__dirname, '../client/index.html'));
+app.get("/", cookieController.setCookie, (req, res) => {
+  res.sendFile(path.resolve(__dirname, "../client/index.html"));
 });
 
 // homepage - login;
 app.post(
-  '/login',
+  "/login",
   userController.verifyUser,
   cookieController.setSSIDCookie,
   (req, res) =>
@@ -29,7 +29,7 @@ app.post(
 
 // // create a new account
 app.post(
-  '/signUp',
+  "/signUp",
   userController.hashPassword,
   userController.createUser,
   cookieController.setSSIDCookie,
@@ -39,16 +39,30 @@ app.post(
   }
 );
 
+app.get("/ingredients", (req, res) => {});
+
+app.post(
+  "/ingredients",
+  edibleRecipeController.storeIngredients,
+  (req, res) => {
+    res.status(200);
+  }
+);
+
+app.get("/savedrecipes", (req, res) => {});
+
+app.post("/savedrecipes", (req, res) => {});
+
 // //catch all router handlers
 app.use((req, res) => {
-  console.log('catch-all route handler is working');
+  console.log("catch-all route handler is working");
 });
 
 app.use((err, req, res, next) => {
   const defaultErr = {
-    log: 'Express error handler caught unknown middleware error',
+    log: "Express error handler caught unknown middleware error",
     status: 400,
-    message: { err: 'An error occurred' },
+    message: { err: "An error occurred" },
   };
   const errorObj = Object.assign({}, defaultErr, err);
   console.log(errorObj.log);
