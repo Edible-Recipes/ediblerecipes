@@ -1,9 +1,10 @@
-import React, { Component } from 'react';
-import { BrowserRouter as Router, Switch, Route, Link } from 'react-router-dom';
+import React, { Component } from "react";
+import { BrowserRouter as Router, Switch, Route, Link } from "react-router-dom";
 
-import SignUp from './components/signup.jsx';
-import Login from './components/login.jsx';
-import RecipesForm from './components/recipesform.jsx';
+import SignUp from "./components/signup.jsx";
+import Login from "./components/login.jsx";
+import RecipesForm from "./components/recipesform.jsx";
+import DisplayRecipe from "./components/recipesdisplay.jsx";
 
 class App extends Component {
   render() {
@@ -27,6 +28,7 @@ class App extends Component {
           <Route path="/signup" exact component={SignUp} />
           <Route path="/login" exact component={Login} />
           <Route path="/recipesform" exact component={RecipesForm} />
+          <Route path="/resultrecipe" exact component={DisplayRecipe} />
         </div>
       </Router>
     );

@@ -45,12 +45,12 @@ app.post(
   "/ingredients",
   edibleRecipeController.storeIngredients,
   (req, res) => {
-    res.status(200);
+    res.status(200).redirect("/resultrecipes");
   }
 );
 
 app.get("/resultrecipes", edibleRecipeController.getRecipes, (req, res) => {
-  res.status(200);
+  res.status(200).json(res.locals.data);
 });
 
 app.get("/savedrecipes", (req, res) => {});

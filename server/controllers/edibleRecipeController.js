@@ -1,6 +1,6 @@
 const path = require("path");
 const db = require("../models/edibleRecipesModels.js");
-
+const fetch = require("node-fetch");
 const edibleRecipeController = {};
 
 //https://spoonacular.com/food-api/docs#Authentication
@@ -40,32 +40,36 @@ edibleRecipeController.storeIngredients = (req, res, next) => {
 };
 
 edibleRecipeController.getRecipes = (req, res, next) => {
-  const search = `SELECT name FROM ingredients WHERE user_id=${id}`;
+  console.log("in getrecipes middleware");
+
+  console.log("req.cookies.user_id", req.cookies.user_id);
+  const search = `SELECT name FROM ingredients WHERE user_id=${req.cookies.user_id}`;
 
   db.query(search).then((data) => {
+    console.log("this is the dsataa", data);
     let queryString = "";
-    for (let i = 0; i < data.length; i++) {
-      queryString = queryString + "ingredients=+" + data[i].name;
+    for (let i = 0; i < data.rows.length; i++) {
+      queryString = queryString + ",+" + data.rows[i].name;
     }
-
-    let search = `https://api.spoonacular.com/recipes/findByIngredients?ingredients=${queryString}&apiKey=4335e4647b4f4cc1b7a027fd1d3b1975`;
-  });
-
-  //FETCH request instead of DB query
-  db.query(search)
-    .then((data) => {
-      res.locals.recipes = data.rows;
-      return next();
+    console.log("queryString", queryString);
+    //https://api.spoonacular.com/recipes/?ingredients=apples,+flour,+sugar&instructionsRequired=true&apiKey=4335e4647b4f4cc1b7a027fd1d3b1975
+    let getRecipes = `https://api.spoonacular.com/recipes/findByIngredients?ingredients=${queryString}&apiKey=4335e4647b4f4cc1b7a027fd1d3b1975`;
+    //https://api.spoonacular.com/recipes/?ingredients=apples,+flour,+sugar&instructionsRequired=true&apiKey=4335e4647b4f4cc1b7a027fd1d3b1975&instructionsRequired=true
+    //FETCH
+    fetch(getRecipes, {
+      headers: {
+        "Content-Type": "application/json",
+      },
+      credentials: "include",
     })
-    .catch((err) => {
-      console.log(err);
-      const error = {
-        log: "getRecipes express error handler caught unknown middleware error",
-        status: 400,
-        message: { err: "An error occurred" },
-      };
-      next(error);
-    });
+      .then((response) => response.json())
+      .then((data) => {
+        console.log("result dataaa", data);
+        res.locals.data = data;
+        return next();
+      })
+      .catch((err) => console.log(err));
+  });
 };
 
 module.exports = edibleRecipeController;

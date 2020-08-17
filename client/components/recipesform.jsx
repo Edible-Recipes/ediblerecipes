@@ -76,7 +76,7 @@ export default class RecipeForms extends Component {
     //   email: "",
     // });
 
-    // this.props.history.push("/login");
+    this.props.history.push("/resultrecipe");
     // this command above returns you to the homepage
   }
 
@@ -98,7 +98,7 @@ export default class RecipeForms extends Component {
             <form onSubmit={this.onSubmit}>
               <div class="form-row">
                 <div class="form-group col-md-6">
-                  <label>Ingrediants :</label>
+                  <label>Ingredients :</label>
                   <br />
                   <div class="form-check form-check-inline">
                     <input
@@ -109,7 +109,11 @@ export default class RecipeForms extends Component {
                       value="bread"
                       onChange={this.handleInputChange}
                     />
-                    <label class="form-check-label" for="inlineCheckboxh1">
+                    <label
+                      htmlFor="bread"
+                      class="form-check-label"
+                      for="inlineCheckboxh1"
+                    >
                       Bread
                     </label>
                   </div>
@@ -122,10 +126,69 @@ export default class RecipeForms extends Component {
                       value="eggs"
                       onChange={this.handleInputChange}
                     />
-                    <label class="form-check-label" for="inlineCheckboxh2">
+                    <label
+                      htmlFor="eggs"
+                      class="form-check-label"
+                      for="inlineCheckboxh2"
+                    >
                       Eggs
                     </label>
                   </div>
+
+                  <div class="form-check form-check-inline">
+                    <input
+                      class="form-check-input"
+                      type="checkbox"
+                      name="ingredients"
+                      id="lettuce"
+                      value="lettuce"
+                      onChange={this.handleInputChange}
+                    />
+                    <label
+                      htmlFor="lettuce"
+                      class="form-check-label"
+                      for="inlineCheckboxh1"
+                    >
+                      Lettuce
+                    </label>
+                  </div>
+
+                  <div class="form-check form-check-inline">
+                    <input
+                      class="form-check-input"
+                      type="checkbox"
+                      name="ingredients"
+                      id="tomato"
+                      value="tomato"
+                      onChange={this.handleInputChange}
+                    />
+                    <label
+                      htmlFor="tomato"
+                      class="form-check-label"
+                      for="inlineCheckboxh1"
+                    >
+                      Tomato
+                    </label>
+                  </div>
+
+                  <div class="form-check form-check-inline">
+                    <input
+                      class="form-check-input"
+                      type="checkbox"
+                      name="ingredients"
+                      id="chicken"
+                      value="chicken"
+                      onChange={this.handleInputChange}
+                    />
+                    <label
+                      htmlFor="chicken"
+                      class="form-check-label"
+                      for="inlineCheckboxh1"
+                    >
+                      Chicken
+                    </label>
+                  </div>
+
                   <div class="form-check form-check-inline">
                     <input
                       class="form-check-input"
@@ -135,7 +198,11 @@ export default class RecipeForms extends Component {
                       value="cheese"
                       onChange={this.handleInputChange}
                     />
-                    <label class="form-check-label" for="inlineCheckboxh2">
+                    <label
+                      htmlFor="cheese"
+                      class="form-check-label"
+                      for="inlineCheckboxh2"
+                    >
                       Cheese
                     </label>
                     <input
@@ -146,7 +213,11 @@ export default class RecipeForms extends Component {
                       value="bacon"
                       onChange={this.handleInputChange}
                     />
-                    <label class="form-check-label" for="inlineCheckboxh2">
+                    <label
+                      htmlFor="bacon"
+                      class="form-check-label"
+                      for="inlineCheckboxh2"
+                    >
                       Bacon
                     </label>
                     <input
