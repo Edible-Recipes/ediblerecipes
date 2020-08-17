@@ -66,8 +66,8 @@ userController.verifyUser = async (req, res, next) => {
 
     await jwt.verify(token, secret, (err, decoded) => {
       console.log("inside JWT");
+      console.log("decoded", decoded);
       if (err) console.log("JWT Verify error", err);
-      else console.log("decoded", decoded);
     });
 
     await bcrypt.compare(password, userPassword, (err, match) => {

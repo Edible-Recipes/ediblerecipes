@@ -18,10 +18,9 @@ cookieController.setCookie = (req, res, next) => {
 cookieController.setSSIDCookie = (req, res, next) => {
   //id is undefined, and user is not created
   console.log("the res.locals.user", res.locals);
-  const { name } = req.body;
-  console.log("req.cookies", req.cookie);
+  //   const { name } = req.body;
 
-  const userid = `SELECT _id FROM users WHERE name = ${name}`;
+  //   const userid = `SELECT _id FROM users WHERE name = ${name}`;
 
   //   res.locals.users = userid;
   //   const { name } = res.body;
@@ -32,7 +31,7 @@ cookieController.setSSIDCookie = (req, res, next) => {
   // const { secret } = req.cookies;
   console.log("this is the req.cookies.secret", req.cookies.secret);
 
-  const token = jwt.sign(payload, req.cookies.secret, { expiresIn: 300 });
+  const token = jwt.sign(payload, req.cookies.secret, { expiresIn: 100000000 });
 
   res.cookie("ssid", token, { httpOnly: true });
   return next();

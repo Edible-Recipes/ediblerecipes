@@ -10,6 +10,7 @@ const edibleRecipeController = {};
 edibleRecipeController.storeIngredients = (req, res, next) => {
   //ONE SOLUTION TO STORE INGREDIENTS
   //I need the user ID to store in the create string
+  //check if it already exist, then we can ignore it, else then we can add it (SQL command)
   /*for(let i = 0; req.body.array.length; i++){
         const create = `INSERT INTO ingredients (name) VALUES ($1) WHERE user_id = ${}`;
         const value = array[i];
@@ -33,7 +34,7 @@ edibleRecipeController.storeIngredients = (req, res, next) => {
 
         const create = `INSERT INTO USERS VALUES ($1, $2, $3, $4, $5)`;
 
-        const values = [milk, break, eggs, apples, oranges];
+        const values = [milk, bread, eggs, apples, oranges];
 
         db.query(create, values)
         .then((data) => {
