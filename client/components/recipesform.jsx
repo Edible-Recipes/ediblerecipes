@@ -194,6 +194,24 @@ export default class RecipeForms extends Component {
                       class="form-check-input"
                       type="checkbox"
                       name="ingredients"
+                      id="beef"
+                      value="beef"
+                      onChange={this.handleInputChange}
+                    />
+                    <label
+                      htmlFor="beef"
+                      class="form-check-label"
+                      for="inlineCheckboxh1"
+                    >
+                      Beef
+                    </label>
+                  </div>
+
+                  <div class="form-check form-check-inline">
+                    <input
+                      class="form-check-input"
+                      type="checkbox"
+                      name="ingredients"
                       id="cheese"
                       value="cheese"
                       onChange={this.handleInputChange}
