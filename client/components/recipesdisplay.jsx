@@ -5,6 +5,8 @@ import "regenerator-runtime/runtime";
 
 const Recipe = (props) => (
   <div className="result-recipe">
+    {/* <button id={props.recipe.id} onClick={() => props.getRecipe()}>{props.recipe.title}
+    <img src={props.recipe.image} /> </button> */}
     <p>Recipe Name: {props.recipe.title}</p>
     <img src={props.recipe.image} />
     {/* <p>Instructions: {props.recipe.instruction}</p> */}
@@ -67,6 +69,16 @@ class RecipeDisplay extends Component {
       return <Recipe recipe={recipe} key={i} />;
     });
   }
+
+  //  async getRecipe() {
+  //   const id = document.getElementById(`${id}`);
+  //  const response = await fetch(`https://api.spoonacular.com/recipes/${id}/information?includeNutrition=false&apiKey=4335e4647b4f4cc1b7a027fd1d3b1975`)
+
+  //   const data = await response.json();
+  //   console.log(data.spoonacularSourceUrl);
+
+  //   return data.spoonacularSourceUrl;
+  // }
 
   render() {
     return (

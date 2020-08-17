@@ -1,5 +1,6 @@
 // import 'bootstrap/dist/css/bootstrap.css';
 import React, { Component } from "react";
+import "../styles/App.css"
 // import '../src/App.css';
 import axios from "axios";
 
@@ -64,13 +65,13 @@ export default class Login extends Component {
       .then((data) => console.log("FETCH data", data))
       .catch((err) => console.log("ERROR in login fetch", err));
 
-    this.props.history.push("/login");
+    this.props.history.push("/recipesform");
     // this command above returns you to the homepage
   }
 
   render() {
     return (
-      <div style={{ marginTop: 20 }}>
+      <div classname="loginpage"style={{ marginTop: 20 }}>
         <h2>Login</h2>
         <form onSubmit={this.onSubmit}>
           <div className="form-group">

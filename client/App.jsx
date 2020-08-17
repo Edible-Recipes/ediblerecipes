@@ -5,14 +5,14 @@ import SignUp from "./components/signup.jsx";
 import Login from "./components/login.jsx";
 import RecipesForm from "./components/recipesform.jsx";
 import DisplayRecipe from "./components/recipesdisplay.jsx";
+import "./styles/App.css";
 
 class App extends Component {
   render() {
     return (
       <Router>
-        <div>
+        <div className="homepage">
           <h1 className="display-4">Welcome to Edible Recipes!</h1>
-
           <ul>
             <li>
               <Link to="/signup">Sign Up</Link>
