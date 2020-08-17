@@ -6,28 +6,31 @@ import Login from './components/login.jsx';
 import RecipesForm from './components/recipesform.jsx';
 
 class App extends Component {
-	render () {
-		return (
-			<Router>
-				<div>
-					<h1 className="display-4">Welcome to Edible Recipes!</h1>
+  render() {
+    return (
+      <Router>
+        <div>
+          <h1 className="display-4">Welcome to Edible Recipes!</h1>
 
-					<ul>
-						<li>
-							<Link to="/signup">Sign Up</Link>
-						</li>
-						<li>
-							<Link to="/login">Log In</Link>
-						</li>
-					</ul>
+          <ul>
+            <li>
+              <Link to="/signup">Sign Up</Link>
+            </li>
+            <li>
+              <Link to="/login">Log In</Link>
+            </li>
+            <li>
+              <Link to="/recipesform">Recipes Form</Link>
+            </li>
+          </ul>
 
-					<Route path="/signup" exact component={SignUp} />
-					<Route path="/login" exact component={Login} />
-					<Route path="/recipesform" exact component={RecipesForm} />
-				</div>
-			</Router>
-		);
-	}
+          <Route path="/signup" exact component={SignUp} />
+          <Route path="/login" exact component={Login} />
+          <Route path="/recipesform" exact component={RecipesForm} />
+        </div>
+      </Router>
+    );
+  }
 }
 
 export default App;

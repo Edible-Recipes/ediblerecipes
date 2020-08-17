@@ -1,49 +1,43 @@
-// require in jwt
-//do we need to npm install? yeah, i just want to make sure we install it in everyone's repo
-//hmm truee
-
 const jwt = require('jsonwebtoken');
-const cookieParser = require('cookie-parser');
+
 const userController = require('./userController');
 
 const cookieController = {};
-
 cookieController.setCookie = (req, res, next) => {
-	console.log("IN SET COOKIE SECRET")
-	//   random number generatednst
-	const random = Math.floor(Math.random() * 100);
-	console.log('RANDOM', random)
-	res.cookie('secret', random);
-	return next();
+  //   random number generatednst
+  random = Math.floor(Math.random() * 100);
+  res.cookie('secret', random, { path: '/' });
+  return next();
 };
 //hi , what else we need to do here?
 
 cookieController.setSSIDCookie = (req, res, next) => {
-	console.log('IN SET SSID COOKIE');
-	console.log('res.locals', res.locals);
-	//id is undefined, and user is not created
-	// console.log('the res.locals.user', res.locals.user);
-	// console.log('req.body', req.body);
-	const { name } = req.body;
-	console.log('name', name);
-	// const userid = `SELECT _id FROM users WHERE name = ${name}`;
+  console.log('IN SET SSID COOKIE');
+  console.log('res.locals', res.locals);
+  //id is undefined, and user is not created
+  // console.log('the res.locals.user', res.locals.user);
+  // console.log('req.body', req.body);
 
-	//   res.locals.users = userid;
-	//   const { name } = res.body;
-	//   console.log(req.body);
-	const id = res.locals.userId;
-	console.log('id', id);
-	const payload = { id: id };
-	console.log('payload', payload);
-	// const { secret } = req.cookies;
-	console.log('this is the req.cookies.secret', req.cookies.secret);
+  // const userid = `SELECT _id FROM users WHERE name = ${name}`;
 
-	const token = jwt.sign(payload, req.cookies.secret, {
-		reexpiresIn: 100000000000,
-	});
+  //   res.locals.users = userid;
+  //   const { name } = res.body;
+  //   console.log(req.body);
+  //res.locals.uderId or newUser????
+  const id = res.locals.userId;
+  // console.log('id', id);
+  const payload = { id: id };
+  // console.log('payload', payload);
+  // const { secret } = req.cookies;
+  // console.log('this is the req.cookies.secret', req.cookies.secret);
 
-	res.cookie('ssid', token, { httpOnly: true });
-	return next();
+  const token = jwt.sign(payload, req.cookies.secret, {
+    expiresIn: 100000000000,
+  });
+
+  res.cookie('ssid', token, { httpOnly: true, path: '/' });
+  console.log('Successfully set SSID');
+  return next();
 };
 
 module.exports = cookieController;
