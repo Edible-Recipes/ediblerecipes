@@ -6,7 +6,7 @@ Important to Know:
 ************* API Link *************
 https://spoonacular.com/food-api
 ************************************
-- API for Spoonacular needs an API key. Our key is located in at the end of our 'getRecipes' string in the edibleRecipeController under the getRecipes method (line 59). Our current api request is hitting Spoonacular's "Search by Ingredients" API endpoint. 
+- API for Spoonacular needs an API key. You'll need to request one and insert it into string on line 59 at the end of it. Our current api request is hitting Spoonacular's "Search by Ingredients" API endpoint. 
 
 - We are relying cookies being set (req.cookies.user_id) to determine who is on the webpage so we can store ingredients for them when they submit our ingredients form. We did not get to deleting/updating functionality due to time constraints. 
 
