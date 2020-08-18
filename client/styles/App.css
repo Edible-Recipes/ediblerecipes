@@ -1,0 +1,28 @@
+
+body{
+	background-color: rgba(250, 235, 215, 0.329);
+	display: flex;
+	justify-content: center;
+	align-items: center;
+
+}
+.homepage {
+	color: pink;
+
+	display: flex;
+	justify-content: center;
+	flex-direction: column;
+	align-content: center;
+	align-items: center;
+	font-family: 'Baloo Tamma 2', cursive;
+
+}
+.loginpage{
+	display: flex;
+	height: 200px;
+	width: 400px;
+	justify-content: space-between;
+	justify-content: center;
+	align-items: center;
+
+}
