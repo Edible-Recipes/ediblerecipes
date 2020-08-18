@@ -4,7 +4,7 @@ const fetch = require("node-fetch");
 const edibleRecipeController = {};
 
 //https://spoonacular.com/food-api/docs#Authentication
-//API KEY: 4335e4647b4f4cc1b7a027fd1d3b1975
+
 //an array of objects comes back
 
 edibleRecipeController.storeIngredients = (req, res, next) => {
@@ -54,9 +54,9 @@ edibleRecipeController.getRecipes = (req, res, next) => {
     }
 
     //API request string labeled getRecipes used below in Fetch to get information from spoonacular API. 
-    //Always need an API key at the end query (getRecipes), however, you can use my API if you need to do so. 
+    //Always need an API key at the end query (getRecipes) You'll have to request one from the main request. 
     /*Important!!!!!!!!: Only 150 request can be made per day to the API*/
-    let getRecipes = `https://api.spoonacular.com/recipes/findByIngredients?ingredients=${queryString}&apiKey=4335e4647b4f4cc1b7a027fd1d3b1975`;
+    let getRecipes = `https://api.spoonacular.com/recipes/findByIngredients?ingredients=${queryString}&apiKey=`;
 
     //FETCH
     fetch(getRecipes, {
