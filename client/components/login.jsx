@@ -8,13 +8,9 @@ export default class Login extends Component {
   constructor(props) {
     super(props);
     this.state = {
-      //   name: '',
       password: "",
       email: "",
     };
-    // this.onChangeUsername = this.onChangeUsername.bind(this);
-    // this.onChangePassword = this.onChangePassword.bind(this);
-    // this.onChangeEmail = this.onChangeEmail.bind(this);
     this.onChange = this.onChange.bind(this);
     this.onSubmit = this.onSubmit.bind(this);
   }
@@ -28,18 +24,6 @@ export default class Login extends Component {
     });
   }
 
-  //   onChangePassword(e) {
-  //     this.setState({
-  //       password: e.target.value,
-  //     });
-  //   }
-
-  // onChangeEmail (e) {
-  // 	this.setState({
-  // 		email: e.target.value
-  // 	})
-  // }
-
   onSubmit(e) {
     e.preventDefault();
 
@@ -48,16 +32,9 @@ export default class Login extends Component {
       email: this.state.email,
     };
 
-    console.log("user in login", user);
-
-    // axios
-    //   .post('http://localhost:3000/login', user)
-    //   .then((res) => console.log(res.data));
-
     fetch("http://localhost:3000/login", {
       method: "POST",
       body: JSON.stringify(user),
-      // body: user,
       headers: { "Content-Type": "application/json" },
       credentials: "include",
     })
@@ -65,8 +42,8 @@ export default class Login extends Component {
       .then((data) => console.log("FETCH data", data))
       .catch((err) => console.log("ERROR in login fetch", err));
 
+    //Redirect to recipes form after submitting info to login
     this.props.history.push("/recipesform");
-    // this command above returns you to the homepage
   }
 
   render() {
@@ -96,21 +73,11 @@ export default class Login extends Component {
             />
           </div>
 
-          {/* <div className="form-group">
-						<label>Email: </label>
-						<input type="text"
-							className="form-control"
-							value={this.state.email}
-							onChange={this.onChangeEmail}
-						/>
-					</div> */}
-
           <div className="form-group">
             <input type="submit" value="Login" className="btn btn-primary" />
           </div>
         </form>
       </div>
-      // </div>
     );
   }
 }

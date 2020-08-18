@@ -8,14 +8,12 @@ const edibleRecipeController = {};
 //an array of objects comes back
 
 edibleRecipeController.storeIngredients = (req, res, next) => {
-  console.log("in ediblerecipecontroller");
   //ONE SOLUTION TO STORE INGREDIENTS
   const ingredientsList = req.body;
-  console.log(req.cookies.user_id);
-  console.log("ingredientsList", ingredientsList);
 
   //I need the user ID to store in the create string
-  //check if it already exist, then we can ignore it, else then we can add it (SQL command)
+  /*Loop through each ingredient submitted to the backend and stores it in 
+  our database(SQL command) based on user_id which we are persisting using a user_id cookie*/
   for (let i = 0; i < ingredientsList.length; i++) {
     const value = ingredientsList[i];
 
@@ -40,21 +38,26 @@ edibleRecipeController.storeIngredients = (req, res, next) => {
 };
 
 edibleRecipeController.getRecipes = (req, res, next) => {
-  console.log("in getrecipes middleware");
 
-  console.log("req.cookies.user_id", req.cookies.user_id);
+  /*query search to postgresQL database to get the ingredients for each user.
+  Needed to use the req.cookie.user_id in order to determine which user is currently on the site */
   const search = `SELECT name FROM ingredients WHERE user_id=${req.cookies.user_id}`;
 
   db.query(search).then((data) => {
-    console.log("this is the dsataa", data);
+
+    //queryString is created to insert in to the api request below called get recipes. Ingredients come back as an array.
+    //example --> ['bread', 'chicken', 'cheese', 'lettuce']
+    //queryString example --> 'bread,+chicken,+cheese,+lettuce'
     let queryString = "";
     for (let i = 0; i < data.rows.length; i++) {
       queryString = queryString + ",+" + data.rows[i].name;
     }
-    console.log("queryString", queryString);
-    //https://api.spoonacular.com/recipes/?ingredients=apples,+flour,+sugar&instructionsRequired=true&apiKey=4335e4647b4f4cc1b7a027fd1d3b1975
+
+    //API request string labeled getRecipes used below in Fetch to get information from spoonacular API. 
+    //Always need an API key at the end query (getRecipes), however, you can use my API if you need to do so. 
+    /*Important!!!!!!!!: Only 150 request can be made per day to the API*/
     let getRecipes = `https://api.spoonacular.com/recipes/findByIngredients?ingredients=${queryString}&apiKey=4335e4647b4f4cc1b7a027fd1d3b1975`;
-    //https://api.spoonacular.com/recipes/?ingredients=apples,+flour,+sugar&instructionsRequired=true&apiKey=4335e4647b4f4cc1b7a027fd1d3b1975&instructionsRequired=true
+
     //FETCH
     fetch(getRecipes, {
       headers: {
