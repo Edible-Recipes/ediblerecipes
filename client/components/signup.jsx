@@ -15,20 +15,6 @@ export default class SignUp extends Component {
     this.onSubmit = this.onSubmit.bind(this);
   }
 
-  // componentDidMount () {
-  // 	// 	axios.get('http://localhost:3000/')
-  // 	// 		.then(console.log("in here 2!"))
-  // 	// }
-
-  // 	setTimeout(() => {
-  // 		fetch('http://localhost:3000/', {
-  // 			method: 'GET',
-  // 			mode: 'same-origin',
-  // 			credentials: 'include', // Don't forget to specify this if you need cookies
-  // 		})
-  // 	}, 500)
-  // }
-
   handleChange(e) {
     const name = e.target.name;
     const value = e.target.value;
@@ -48,7 +34,6 @@ export default class SignUp extends Component {
     };
 
     console.log(newUser);
-    //ask Grace and Wilmer about secretKey
     axios.post('/signUp', newUser).then((res) => console.log(res.data));
 
     this.setState({
@@ -57,8 +42,8 @@ export default class SignUp extends Component {
       email: '',
     });
 
+    // this command below returns you to the login page after submitting info
     this.props.history.push('/login');
-    // this command above returns you to the homepage
   }
 
   render() {
@@ -108,7 +93,6 @@ export default class SignUp extends Component {
           </div>
         </form>
       </div>
-      // </div>
     );
   }
 }

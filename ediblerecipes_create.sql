@@ -1,3 +1,6 @@
+--Used initially to create our table in for our website. 3 tables. Users, Ingredients, and Recipes Table.
+--Tables emails are not unique which is an issue
+--Currently using Users and Ingredients table. Did not get to the functionality of allowing Users save recipes to database.
 SET statement_timeout
 = 0;
 SET lock_timeout
@@ -57,6 +60,13 @@ WITH (
   OIDS=FALSE
 );
 
+
+--//Command to create new database if you needed to drop all the tables and start from scratch
+-- psql -d postgres://nagsauar:3uEIYk1GNWY8XPHcw61ZsQErEvPKtr2d@rajje.db.elephantsql.com:5432/nagsauar -f ediblerecipes_create.sql
+
+
+
+--DISREGARD COMMENTED OUT CODE BELOW
 -- CREATE TABLE public.userrecipe (
 -- 	"_id" serial NOT NULL,
 -- 	"user_id" bigint NOT NULL,
@@ -86,7 +96,3 @@ WITH (
 -- ALTER TABLE public.user ADD CONSTRAINT "users_fk1" FOREIGN KEY ("_id") REFERENCES  public.ingredient("user_id");
 
 --SELECT users._id, recipes._id from users INNER JOIN recipes
-
-
-
--- psql -d postgres://nagsauar:3uEIYk1GNWY8XPHcw61ZsQErEvPKtr2d@rajje.db.elephantsql.com:5432/nagsauar -f ediblerecipes_create.sql

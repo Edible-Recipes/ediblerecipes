@@ -1,12 +1,12 @@
-const path = require("path");
-const express = require("express");
-const cookieParser = require("cookie-parser");
-const userController = require("./controllers/userController.js");
-const cookieController = require("./controllers/cookieController.js");
+const path                  = require("path");
+const express               = require("express");
+const cookieParser          = require("cookie-parser");
+const userController        = require("./controllers/userController.js");
+const cookieController      = require("./controllers/cookieController.js");
 const edibleRecipeController = require("./controllers/edibleRecipeController.js");
-const app = express();
-const PORT = 3000;
-const cors = require("cors");
+const app                   = express();
+const PORT                  = 3000;
+const cors                  = require("cors");
 
 app.use(cors({ credentials: true, origin: "http://localhost:8080" }));
 app.use(express.json()); // --> Same as body parser
@@ -23,7 +23,7 @@ app.post(
   userController.verifyUser,
   cookieController.setSSIDCookie,
   (req, res) =>
-    // res.redirect('/recipesform')
+
     res.status(200).json(res.locals.user)
 );
 
@@ -34,7 +34,6 @@ app.post(
   userController.createUser,
   cookieController.setSSIDCookie,
   (req, res) => {
-    // res.redirect('/recipesform');
     res.status(200).json(res.locals.user);
   }
 );
